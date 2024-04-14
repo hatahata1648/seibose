@@ -1,5 +1,6 @@
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
+const overlayCanvas = document.getElementById('overlay-canvas');
 const overlayImage = document.getElementById('overlay-image');
 const captureBtn = document.getElementById('capture-btn');
 const previewContainer = document.getElementById('preview-container');
@@ -23,6 +24,33 @@ navigator.mediaDevices.getUserMedia(constraints)
   })
   .catch(err => console.error(err));
 
+// オーバーレイ画像の外側を白背景に描画
+function drawOverlayBackground() {
+  const ctx = overlayCanvas.getContext('2d');
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+
+  if (overlayImage.src) {
+    const imageRatio = overlayImage.naturalWidth / overlayImage.naturalHeight;
+    const canvasRatio = overlayCanvas.width / overlayCanvas.height;
+
+    let imageWidth, imageHeight;
+    if (imageRatio > canvasRatio) {
+      imageWidth = overlayCanvas.width;
+      imageHeight = overlayCanvas.width / imageRatio;
+    } else {
+      imageHeight = overlayCanvas.height;
+      imageWidth = overlayCanvas.height * imageRatio;
+    }
+
+    const x = (overlayCanvas.width - imageWidth) / 2;
+    const y = (overlayCanvas.height - imageHeight) / 2;
+
+    ctx.clearRect(x, y, imageWidth, imageHeight);
+    ctx.drawImage(overlayImage, x, y, imageWidth, imageHeight);
+  }
+}
+
 // 写真の撮影と保存
 captureBtn.addEventListener('click', () => {
   canvas.width = window.innerWidth;
@@ -31,7 +59,7 @@ captureBtn.addEventListener('click', () => {
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
   if (overlayImage.src) {
-    ctx.drawImage(overlayImage, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(overlayCanvas, 0, 0, canvas.width, canvas.height);
   }
 
   const dataURL = canvas.toDataURL('image/png');
@@ -63,9 +91,16 @@ imageInput.addEventListener('change', (event) => {
 
   reader.onload = () => {
     overlayImage.src = reader.result;
+    drawOverlayBackground();
   };
 
   if (file) {
     reader.readAsDataURL(file);
   }
 });
+
+// ウィンドウサイズ変更時にオーバーレイ背景を更新
+window.addEventListener('resize', drawOverlayBackground);
+
+// 初期化
+drawOverlayBackground();

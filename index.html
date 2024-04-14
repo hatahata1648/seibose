@@ -11,6 +11,7 @@
     <video id="video" autoplay playsinline></video>
     <canvas id="canvas"></canvas>
     <div id="overlay">
+      <canvas id="overlay-canvas"></canvas>
       <img id="overlay-image" src="images/default-overlay.png" alt="Overlay Image">
     </div>
     <div id="capture-btn">
@@ -18,9 +19,7 @@
     </div>
     <div id="preview-container" style="display: none;">
       <div id="preview-overlay"></div>
-      <div id="preview-image-container">
-        <img id="captured-image" src="" alt="Captured Image">
-      </div>
+      <img id="captured-image" src="" alt="Captured Image">
       <div id="close-btn">&#10005;</div>
     </div>
     <a id="download-link" download="overlay-photo.png" style="display: none;">写真をダウンロード</a>
