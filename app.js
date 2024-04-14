@@ -2,13 +2,14 @@ const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const overlayImage = document.getElementById('overlay-image');
 const captureBtn = document.getElementById('capture-btn');
+const capturedImage = document.getElementById('captured-image');
 const downloadLink = document.getElementById('download-link');
 const imageInput = document.getElementById('image-input');
 
 // カメラの初期化
 const constraints = {
   video: {
-    facingMode: 'environment' // 外部カメラを使用
+    facingMode: 'environment'
   }
 };
 
@@ -16,7 +17,6 @@ navigator.mediaDevices.getUserMedia(constraints)
   .then(stream => {
     video.srcObject = stream;
     video.play();
-    captureBtn.disabled = false;
   })
   .catch(err => console.error(err));
 
@@ -32,6 +32,8 @@ captureBtn.addEventListener('click', () => {
   }
 
   const dataURL = canvas.toDataURL('image/png');
+  capturedImage.src = dataURL;
+  capturedImage.style.display = 'block';
   downloadLink.href = dataURL;
   downloadLink.style.display = 'block';
 });
