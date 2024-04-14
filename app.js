@@ -36,7 +36,8 @@ captureBtn.addEventListener('click', () => {
 
   const dataURL = canvas.toDataURL('image/png');
   capturedImage.src = dataURL;
-  previewContainer.style.display = 'flex';
+  previewContainer.style.display = 'flex'; // プレビューコンテナを表示
+
   downloadLink.href = dataURL;
   downloadLink.style.display = 'block';
 
@@ -53,7 +54,7 @@ captureBtn.addEventListener('click', () => {
 
 // プレビューを閉じる
 closeBtn.addEventListener('click', () => {
-  previewContainer.style.display = 'none';
+  previewContainer.style.display = 'none'; // プレビューコンテナを非表示
 });
 
 // 画像のオーバーレイ
