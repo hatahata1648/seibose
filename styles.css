@@ -1,33 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>画像オーバーレイ写真撮影アプリ</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div id="container">
-    <video id="video" autoplay playsinline></video>
-    <canvas id="canvas"></canvas>
-    <div id="overlay">
-      <img id="overlay-image" src="images/default-overlay.png" alt="Overlay Image">
-    </div>
-    <div id="capture-btn">
-      <span></span>
-    </div>
-    <div id="preview-container" style="display: none;">
-      <div id="preview-overlay"></div>
-      <div id="preview-image-container">
-        <img id="captured-image" src="" alt="Captured Image">
-      </div>
-      <div id="close-btn">&#10005;</div>
-    </div>
-    <a id="download-link" download="overlay-photo.png" style="display: none;">写真をダウンロード</a>
-  </div>
-  <input type="file" id="image-input" accept="image/*">
-  <audio id="shutter-sound" src="shutter.mp3"></audio>
-  <script src="app.js"></script>
 body, html {
   margin: 0;
   padding: 0;
@@ -70,19 +40,90 @@ body, html {
   align-items: center;
 }
 
-#overlay-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
 #overlay-image {
   max-width: 100%;
   max-height: 100%;
 }
 
-/* 以下は省略 */
-</body>
-</html>
+#capture-btn {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+#capture-btn span {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #ff4081;
+}
+
+#preview-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#preview-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  opacity: 0;
+  z-index: 2;
+  animation: flash 0.5s ease-out;
+}
+
+#captured-image {
+  max-width: 100%;
+  max-height: 100%;
+  z-index: 3;
+}
+
+#close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 4;
+}
+
+@keyframes flash {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
