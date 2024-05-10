@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>聖母フレーム撮影</title>
+  <title>画像オーバーレイ写真撮影アプリ</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -20,8 +20,9 @@
       <div id="preview-overlay"></div>
       <img id="captured-image" src="" alt="Captured Image">
       <div id="close-btn">&#10005;</div>
+      <button id="share-btn">シェア</button>
     </div>
-    <a id="download-link" download="overlay-photo.png" style="display: none;"></a>
+    <a id="download-link" download="overlay-photo.png" style="display: none;">写真をダウンロード</a>
   </div>
   <input type="file" id="image-input" accept="image/*">
   <audio id="shutter-sound" src="shutter.mp3"></audio>
