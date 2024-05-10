@@ -25,19 +25,22 @@ navigator.mediaDevices.getUserMedia(constraints)
 
 // 写真の撮影と保存
 captureBtn.addEventListener('click', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  const videoRatio = video.videoWidth / video.videoHeight;
+  const canvasWidth = video.videoWidth;
+  const canvasHeight = canvasWidth / videoRatio;
+
+  canvas.width = canvasWidth;
+  canvas.height = canvasHeight;
   const ctx = canvas.getContext('2d');
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  ctx.drawImage(video, 0, 0, canvasWidth, canvasHeight);
 
   if (overlayImage.src) {
-    ctx.drawImage(overlayImage, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(overlayImage, 0, 0, canvasWidth, canvasHeight);
   }
 
   const dataURL = canvas.toDataURL('image/png');
   capturedImage.src = dataURL;
-  previewContainer.style.display = 'flex'; // プレビューコンテナを表示
-
+  previewContainer.style.display = 'flex';
   downloadLink.href = dataURL;
   downloadLink.style.display = 'block';
 
@@ -54,7 +57,7 @@ captureBtn.addEventListener('click', () => {
 
 // プレビューを閉じる
 closeBtn.addEventListener('click', () => {
-  previewContainer.style.display = 'none'; // プレビューコンテナを非表示
+  previewContainer.style.display = 'none';
 });
 
 // 画像のオーバーレイ
