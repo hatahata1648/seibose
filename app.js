@@ -8,7 +8,6 @@ const closeBtn = document.getElementById('close-btn');
 const downloadLink = document.getElementById('download-link');
 const imageInput = document.getElementById('image-input');
 const shutterSound = document.getElementById('shutter-sound');
-const shareBtn = document.getElementById('share-btn');
 
 // カメラの初期化
 const constraints = {
@@ -72,20 +71,5 @@ imageInput.addEventListener('change', (event) => {
 
   if (file) {
     reader.readAsDataURL(file);
-  }
-});
-
-// 写真のシェア
-shareBtn.addEventListener('click', () => {
-  if (navigator.share) {
-    navigator.share({
-      title: '画像オーバーレイ写真',
-      text: 'オーバーレイ写真を撮影しました。',
-      url: capturedImage.src
-    })
-    .then(() => console.log('Successful share'))
-    .catch((error) => console.log('Error sharing', error));
-  } else {
-    console.log('Web Share API not supported');
   }
 });
