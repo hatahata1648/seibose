@@ -69,7 +69,7 @@ imageInput.addEventListener('change', (event) => {
   const reader = new FileReader();
   reader.onload = () => {
     overlayImage.src = reader.result;
-    overlayImage.style.transform = 'scale(1)';
+    overlayImage.style.transform = 'translate(0px, 0px) scale(1)';
     overlayScale = 1;
     overlayX = 0;
     overlayY = 0;
@@ -85,10 +85,9 @@ overlayImage.addEventListener('touchmove', handleTouchMove, false);
 overlayImage.addEventListener('touchend', handleTouchEnd, false);
 
 // ドラッグ操作のイベントリスナー
-overlayImage.addEventListener('mousedown', handleMouseDown, false);
-overlayImage.addEventListener('mousemove', handleMouseMove, false);
-overlayImage.addEventListener('mouseup', handleMouseUp, false);
-overlayImage.addEventListener('mouseleave', handleMouseLeave, false);
+overlayImage.addEventListener('touchstart', handleDragStart, false);
+overlayImage.addEventListener('touchmove', handleDragMove, false);
+overlayImage.addEventListener('touchend', handleDragEnd, false);
 
 // ピンチ操作の開始
 function handleTouchStart(event) {
@@ -118,28 +117,26 @@ function handleTouchEnd(event) {
 }
 
 // ドラッグ操作の開始
-function handleMouseDown(event) {
-  isDragging = true;
-  startX = event.clientX - overlayX;
-  startY = event.clientY - overlayY;
+function handleDragStart(event) {
+  if (event.touches.length === 1) {
+    isDragging = true;
+    startX = event.touches[0].clientX - overlayX;
+    startY = event.touches[0].clientY - overlayY;
+  }
 }
 
 // ドラッグ操作の移動
-function handleMouseMove(event) {
-  if (isDragging) {
-    overlayX = event.clientX - startX;
-    overlayY = event.clientY - startY;
+function handleDragMove(event) {
+  if (isDragging && event.touches.length === 1) {
+    event.preventDefault();
+    overlayX = event.touches[0].clientX - startX;
+    overlayY = event.touches[0].clientY - startY;
     overlayImage.style.transform = `translate(${overlayX}px, ${overlayY}px) scale(${overlayScale})`;
   }
 }
 
 // ドラッグ操作の終了
-function handleMouseUp(event) {
-  isDragging = false;
-}
-
-// ドラッグ操作の終了（マウスがオーバーレイ画像の外に出た場合）
-function handleMouseLeave(event) {
+function handleDragEnd(event) {
   isDragging = false;
 }
 
